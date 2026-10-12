@@ -20,8 +20,37 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions { jvmTarget = "17" }
+    val releaseStoreFile = providers.gradleProperty("glasslinkReleaseStoreFile").orNull
+    val releaseStorePassword = providers.gradleProperty("glasslinkReleaseStorePassword").orNull
+    val releaseKeyAlias = providers.gradleProperty("glasslinkReleaseKeyAlias").orNull
+    val releaseKeyPassword = providers.gradleProperty("glasslinkReleaseKeyPassword").orNull
+
+    signingConfigs {
+        if (releaseStoreFile != null &&
+            releaseStorePassword != null &&
+            releaseKeyAlias != null &&
+            releaseKeyPassword != null
+        ) {
+            create("release") {
+                storeFile = file(releaseStoreFile)
+                storePassword = releaseStorePassword
+                keyAlias = releaseKeyAlias
+                keyPassword = releaseKeyPassword
+            }
+        }
+    }
+
     buildTypes {
-        getByName("release") { isMinifyEnabled = false }
+        getByName("release") {
+            isMinifyEnabled = false
+            if (releaseStoreFile != null &&
+                releaseStorePassword != null &&
+                releaseKeyAlias != null &&
+                releaseKeyPassword != null
+            ) {
+                signingConfig = signingConfigs.getByName("release")
+            }
+        }
     }
 }
 
