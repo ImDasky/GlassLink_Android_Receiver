@@ -1,0 +1,1 @@
+GlassLink Receiver uses AndroidX Media3/ExoPlayer (Google LLC, Apache License 2.0). Dependencies are downloaded by Gradle at build time, not included in this source ZIP. See https://developer.android.com/media/media3 and https://www.apache.org/licenses/LICENSE-2.0. Receiver project code prepared for GlassLink.
